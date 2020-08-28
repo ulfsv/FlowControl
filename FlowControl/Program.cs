@@ -5,8 +5,10 @@ namespace FlowControl
 {
     class Program
     {
-        private static int price;
-        private static object word;
+        private static int price; // Kan deklareras i metoden TicketType eftersom det är bara där den används.
+
+        // Kan deklareras i metoden GetWord eftersom det är bara där den används. Bättre att använda en String[] som typ istället för object.
+        // private static object word; 
 
         //Create a new instance of payroll
         //static CinemaGroup cinemagroup = new CinemaGroup();
@@ -53,34 +55,58 @@ namespace FlowControl
         {
             Console.Write("Ange din ålder: ");
             int age = Convert.ToInt32(Console.ReadLine());
-            if (age < 64)
+
+            //Lite lättare om du inte använder dig av nästlad if-sats, jag förstår dock eftersom i uppgiften står det att man ska göra det.
+            if (age < 20)
             {
-                if (age < 20)
-                {
-                    price = 80;
-                    //Console.WriteLine("Ungdomspris 80kr");
-                    Console.WriteLine($"\r\nUngdomspris: {price} kr");
-                    Console.WriteLine("Tryck Enter för Huvudmeny");
-                    Console.ReadLine();
-                }
-                else
-                {
-                    price = 120;
-                    Console.WriteLine($"\r\nStandardpris: {price} kr");
-                    Console.WriteLine("Tryck Enter för Huvudmeny");
-                    Console.ReadLine();
-                }
+                price = 80;
+                Console.WriteLine($"\r\nUngdomspris: {price} kr");
+                Console.WriteLine("Tryck Enter för Huvudmeny");
+                Console.ReadLine();
+            }
+            else if (age >= 64)
+            {
+                price = 90;
+                Console.WriteLine($"\r\nPensionärspris: {price} kr");
+                Console.WriteLine("Tryck Enter för Huvudmeny");
+                Console.ReadLine();
             }
             else
             {
-                if (age >= 64)
-                {
-                    price = 90;
-                    Console.WriteLine($"\r\nPensionärspris: {price} kr");
-                    Console.WriteLine("Tryck Enter för Huvudmeny");
-                    Console.ReadLine();
-                }
+                price = 120;
+                Console.WriteLine($"\r\nStandardpris: {price} kr");
+                Console.WriteLine("Tryck Enter för Huvudmeny");
+                Console.ReadLine();
             }
+
+            // if (age < 64)
+            // {
+            //     if (age < 20)
+            //     {
+            //         price = 80;
+            //         //Console.WriteLine("Ungdomspris 80kr");
+            //         Console.WriteLine($"\r\nUngdomspris: {price} kr");
+            //         Console.WriteLine("Tryck Enter för Huvudmeny");
+            //         Console.ReadLine();
+            //     }
+            //     else
+            //     {
+            //         price = 120;
+            //         Console.WriteLine($"\r\nStandardpris: {price} kr");
+            //         Console.WriteLine("Tryck Enter för Huvudmeny");
+            //         Console.ReadLine();
+            //     }
+            // }
+            // else
+            // {
+            //     if (age >= 64)
+            //     {
+            //         price = 90;
+            //         Console.WriteLine($"\r\nPensionärspris: {price} kr");
+            //         Console.WriteLine("Tryck Enter för Huvudmeny");
+            //         Console.ReadLine();
+            //     }
+            // }
         }
         private static void RepeatText()
         {
@@ -94,7 +120,7 @@ namespace FlowControl
                 //ut = v;
                 //result = string.Join(",", v);
                 Console.Write($"{v} ");
-                
+
 
             }
             Console.WriteLine();
@@ -102,12 +128,25 @@ namespace FlowControl
             Console.ReadLine();
 
         }
+
         private static void GetWord()
         {
             Console.Write("Skriv in en mening på minst tre ord: ");
-            string sentence = Console.ReadLine();
-            word = sentence.Split(' ').Skip(2);
-            Console.WriteLine(word);
+            string sentence = Console.ReadLine().Trim(); //Trim metoden bort överflödiga mellanslag i början och slutet av texten.
+            //Skip returnerar typen IEnumerable<T>
+            // word = sentence.Split(' ').Skip(2);
+
+            string[] words = sentence.Split(' ');
+
+            //Om du vill använda dig utav Linq kan du göra så här istället:
+            //words.Skip(2).FirstOrDefault();
+
+            //Om färre än tre ord i meningen.
+            if (words.Length < 3)
+            {
+                return;
+            }
+            Console.WriteLine($"Tredje ordet: \"{words[2]}\"");
             Console.Write("Tryck Enter för Huvudmeny");
             Console.ReadLine();
         }
